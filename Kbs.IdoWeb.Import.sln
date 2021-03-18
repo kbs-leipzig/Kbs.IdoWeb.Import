@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29123.88
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kbs.IdoWeb.Import", "Kbs.IdoWeb.Import\Kbs.IdoWeb.Import.csproj", "{AEDD4A46-B589-40FB-89C5-75DAA2C932E5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kbs.IdoWeb.Data", "..\Kbs.IdoWeb.Api\Kbs.IdoWeb.Data\Kbs.IdoWeb.Data.csproj", "{8A1B819F-5700-4D10-804F-F739E04ECA71}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AEDD4A46-B589-40FB-89C5-75DAA2C932E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEDD4A46-B589-40FB-89C5-75DAA2C932E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEDD4A46-B589-40FB-89C5-75DAA2C932E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEDD4A46-B589-40FB-89C5-75DAA2C932E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A1B819F-5700-4D10-804F-F739E04ECA71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A1B819F-5700-4D10-804F-F739E04ECA71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A1B819F-5700-4D10-804F-F739E04ECA71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A1B819F-5700-4D10-804F-F739E04ECA71}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {272186A7-9D15-4CA2-ABE0-935BE0094EA4}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://tfs2013:8080/tfs/naturkundeprojekte
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ..\\Kbs.IdoWeb.Api\\Kbs.IdoWeb.Data\\Kbs.IdoWeb.Data.csproj
+		SccProjectName1 = ../Kbs.IdoWeb.Api/Kbs.IdoWeb.Data
+		SccLocalPath1 = ..\\Kbs.IdoWeb.Api\\Kbs.IdoWeb.Data
+		SccProjectUniqueName2 = Kbs.IdoWeb.Import\\Kbs.IdoWeb.Import.csproj
+		SccProjectName2 = Kbs.IdoWeb.Import
+		SccLocalPath2 = Kbs.IdoWeb.Import
+	EndGlobalSection
+EndGlobal
