@@ -6,7 +6,7 @@ Kbs.IdoWeb.Import is an import procedure of excel-based files to create the basi
 
 
 ### Förderhinweis 
-This WordPress Theme is part of the project museum4punkt0 - Digital Strategies for the 
+This .net core application is part of the project museum4punkt0 - Digital Strategies for the 
 Museum of the Future, sub-project [englischer Teilprojektname einfügen, gemäß 
 museum4punkt0-Website]. The project museum4punkt0 is funded by the Federal Government 
 Commissioner for Culture and the Media in accordance with a resolution issued by the German 
@@ -24,8 +24,10 @@ www.museum4punkt0.de/en/
   #### To only start the import
   1. open terminal / command line
   2. cd into project directory
-  3. update import files in "/importFiles/latest"
-  3. enter command to start the import: ./Kbs.IdoWeb.Import
+  3. update import files in  
+    `/importFiles/latest`
+  4. enter command in project root to start the import  
+    `./Kbs.IdoWeb.Import`
 
 ## 5. Benutzung / Usage 
 cf. 4. Installation
