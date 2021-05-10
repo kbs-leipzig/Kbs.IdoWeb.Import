@@ -1,4 +1,4 @@
-# BODENTIERhoch4-Kbs.IdoWeb.Import
+# BODENTIER hoch 4 - Kbs.IdoWeb.Import
 
 ## Inhaltsverzeichnis  
 - [Kurzbeschreibung](#Kurzbeschreibung)
