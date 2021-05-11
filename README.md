@@ -31,7 +31,7 @@ Weitere Informationen: [www.museum4punkt0.de](https://www.museum4punkt0.de/)
   `./Kbs.IdoWeb.Import`
 
 ## Credits  
-Auftraggeber/Rechteinhaber: [Senckenberg Gesellschaft für Naturforschung] (https://senckenberg.de/)  
+Auftraggeber/Rechteinhaber: [Senckenberg Gesellschaft für Naturforschung](https://senckenberg.de/)  
 Entwicklung/Urheber: [Kunert Business Software GmbH] (https://www.kbs-leipzig.de/kbsweb/)
 
 ## Lizenz  
