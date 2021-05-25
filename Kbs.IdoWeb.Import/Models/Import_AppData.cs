@@ -19,7 +19,7 @@ namespace Kbs.IdoWeb.Import.Models
         private ObservationContext _obsContext = new ObservationContext();
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         private static string edaphoApi = @"https://api.edaphobase.org/taxon/";
-        private static string _filePath = @"C:\AppFiles\";
+        private static string _filePath = Path.Combine("AppFiles/");
         private List<string> taxonTagsFilterGroups = new List<string> { "Bodentiere", "Doppelfüßer (Diplopoda)", "Samenfüßer (Chordeumatida)", "Bandfüßer (Polydesmida)", "Schnurfüßer (Julida)", "Saftkugler (Glomerida)", "Pinselfüßer (Polyxenida)", "Bohrfüßer (Polyzoniida)", "Hundertfüßer (Chilopoda)", "Steinläufer (Lithobiomorpha)", "Skolopender (Scolopendromorpha)", "Erdkriecher (Geophilomorpha)", "Spinnenläufer (Scutigeromorpha)", "Asseln (Isopoda)" };
         private object config;
 
@@ -353,20 +353,20 @@ namespace Kbs.IdoWeb.Import.Models
             }
 
             List<TaxonImage> taxInfo = _obsContext.Image
-                .Where(td => td.TaxonId != null && td.LicenseId != null)
+                .Where(td => td.TaxonId != null && td.LicenseId != null && td.IsApproved)
                 .Include(td => td.License)
                 .Select(td => new TaxonImage
                 {
                     TaxonId = td.TaxonId.HasValue ? td.TaxonId : 0,
                     ImageId = td.ImageId.ToString(),
-                    Index = 3,
+                    Index = td.ImagePriority,
                     Title = td.ImagePath,
                     Description = $"<p>{td.Description}<br/>{td.Author}<br/>{td.CopyrightText}<br/><a href='{td.License.LicenseLink}' target='_blank'>&#169;&nbsp;{td.License.LicenseName}</a><p>",
                     Male = true,
                     Female = true,
                     Downside = false,
                     SecondForm = false
-                }).AsNoTracking().ToList();
+                }).OrderBy(i => i.TaxonId).ThenBy(i => i.Index).AsNoTracking().ToList();
 
             taxInfo.AddRange(sliderImgs);
             var test = taxInfo.GroupBy(t => t.TaxonId).ToList();
@@ -375,6 +375,7 @@ namespace Kbs.IdoWeb.Import.Models
             {
                 result.AddRange(item.Take(3));
             }
+            result.OrderBy(i => i.ImageId);
 
             Dictionary<string, string> imgListById = _obsContext.Image.Where(i => i.Description != null && i.LicenseId != null).Include(i => i.License).Select(i => new { ImageId = i.ImageId.ToString(), DescriptionStr = $"{i.Description}<br/>{i.Author}<br/>{i.CopyrightText}<br/><a href='{i.License.LicenseLink}' target='_blank'>{i.License.LicenseName}</a>" }).ToDictionary(x => x.ImageId, x => x.DescriptionStr);
             Dictionary<string, string> imgListByTitle = _obsContext.Image.Where(i => i.Description != null && i.LicenseId != null).Include(i => i.License).Select(i => new { ImagePath = i.ImagePath, DescriptionStr = $"{i.Description}<br/>{i.Author}<br/>{i.CopyrightText}<br/><a href='{i.License.LicenseLink}' target='_blank'>{i.License.LicenseName}</a>" }).ToDictionary(x => x.ImagePath, x => x.DescriptionStr);
@@ -393,7 +394,7 @@ namespace Kbs.IdoWeb.Import.Models
                     rItem.Description = "Beschreibung folgt";
                 }
             }
-            _writeFile(result, "TaxonImages.json");
+            _writeFile(result.OrderBy(i => i.Index), "TaxonImages.json");
         }
 
         private List<string> ConvertSynonymsToList(string synJson)
@@ -485,7 +486,7 @@ namespace Kbs.IdoWeb.Import.Models
                 {
                     TaxonId = td.TaxonId,
                     ImageId = td.ImageId,
-                    Index = 1,
+                    Index = td.ImagePriority,
                     TaxonTypeId = 20005,
                 }).AsNoTracking().ToList();
 
@@ -565,7 +566,7 @@ namespace Kbs.IdoWeb.Import.Models
         public string ImageId;
         //only temporary for conversion
         public JArray SliderImgArray;
-        public int Index = 3;
+        public int? Index;
         public string Title;
         public string Description;
         public bool Male = true;

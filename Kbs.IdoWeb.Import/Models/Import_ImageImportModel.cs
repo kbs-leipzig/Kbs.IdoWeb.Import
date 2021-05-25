@@ -147,6 +147,7 @@ namespace Kbs.IdoWeb.Import.Models
                 img.Description = worksheetImages.Cells[i, descriptionCol].Value?.ToString().Trim();
                 img.ImagePath = worksheetImages.Cells[i, abbNameCol].Value?.ToString().Trim();
                 img.TaxonName = worksheetImages.Cells[i, taxonCol].Value?.ToString().Trim();
+                img.ImagePriority = i;
                 img.IsApproved = true;
                 return img;
             }
@@ -194,6 +195,10 @@ namespace Kbs.IdoWeb.Import.Models
                             imgLic.LicenseLink = ccrLink;
                             licenseId = _saveImageLicense(imgLic);
                             if (licenseId == null) return null;
+                        } else
+                        {
+                            //regular copyright as fallback
+                            licenseId = 7;
                         }
                     }
                 }
@@ -239,6 +244,7 @@ namespace Kbs.IdoWeb.Import.Models
             exImg.Author = img.Author;
             exImg.CopyrightText = img.CopyrightText;
             exImg.Description = img.Description;
+            exImg.ImagePriority = img.ImagePriority;
             if(exImg.TaxonName == null)
             {
                 exImg.TaxonName = img.TaxonName;
