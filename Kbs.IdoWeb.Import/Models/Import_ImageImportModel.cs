@@ -42,14 +42,14 @@ namespace Kbs.IdoWeb.Import.Models
             FileInfo fileInfo = new FileInfo(importFilePath);
             excelPackage = new ExcelPackage(fileInfo);
             worksheetImages = excelPackage.Workbook.Worksheets[2];
-            if(worksheetImages != null)
+            if (worksheetImages != null)
             {
                 InitContexts();
                 InitProperties();
             }
         }
 
-        public void InitProperties ()
+        public void InitProperties()
         {
             imageImportCounter = 0;
             imageUpdateCounter = 0;
@@ -101,7 +101,7 @@ namespace Kbs.IdoWeb.Import.Models
 
         internal void StartImageImport()
         {
-            if(worksheetImages != null)
+            if (worksheetImages != null)
             {
                 try
                 {
@@ -129,7 +129,7 @@ namespace Kbs.IdoWeb.Import.Models
         private Image _parseImageRow(int i)
         {
             Image img = new Image();
-            if(worksheetImages.Cells[i, taxonCol].Value?.ToString().Trim() != "")
+            if (worksheetImages.Cells[i, taxonCol].Value?.ToString().Trim() != "")
             {
                 var taxId = _taxonLookup(worksheetImages.Cells[i, taxonCol].Value?.ToString().Trim());
                 if (taxId != null)
@@ -167,7 +167,7 @@ namespace Kbs.IdoWeb.Import.Models
                 }
 
                 var taxonId = _contextInf.Taxon.Where(tax => EF.Functions.Like(tax.TaxonName, $"%{taxonName}%")).Select(img => img.TaxonId).FirstOrDefault();
-                if(taxonId != 0)
+                if (taxonId != 0)
                 {
                     return taxonId;
                 }
@@ -175,52 +175,54 @@ namespace Kbs.IdoWeb.Import.Models
             return null;
         }
 
-        private int? _ccrLookup (string inString, int rowIdx)
+        private int? _ccrLookup(string inString, int rowIdx)
         {
-            if(inString != null)
+            int licenseId = 7;
+            if (inString != null)
             {
                 var inString_clean = inString.TrimStart("CC ".ToCharArray()).Replace("-", " ");
-                int? licenseId = _contextObs.ImageLicense.Where(img => EF.Functions.Like(img.LicenseName.Replace("-", " "), $"%{inString_clean}%")).Select(img => img.LicenseId).FirstOrDefault();
-                if(licenseId == 0)
+                licenseId = _contextObs.ImageLicense.Where(img => EF.Functions.Like(img.LicenseName.Replace("-", " "), $"%{inString_clean}%")).Select(img => img.LicenseId).FirstOrDefault();
+                if (licenseId == 0)
                 {
                     //not in db - valid format?
                     if (Regex.IsMatch(inString, _ccrRegex))
                     {
                         //TODO LocalisationJson??
                         var ccrLink = worksheetImages.Cells[rowIdx, ccrLinkCol].Value?.ToString().Trim();
-                        if(Regex.IsMatch(inString, _ccUrlRegex))
+                        if (Regex.IsMatch(inString, _ccUrlRegex))
                         {
                             ImageLicense imgLic = new ImageLicense();
                             imgLic.LicenseName = inString;
                             imgLic.LicenseLink = ccrLink;
                             licenseId = _saveImageLicense(imgLic);
-                            if (licenseId == null) return null;
-                        } else
+                            if (licenseId == 0) return null;
+                        }
+                        else
                         {
                             //regular copyright as fallback
                             licenseId = 7;
                         }
                     }
                 }
-                return licenseId;
             }
-            return null;
+            return licenseId;
         }
 
         private void _saveImage(Image img)
         {
             try
             {
-                if(!_imageAlreadyExists(img))
+                if (!_imageAlreadyExists(img))
                 {
                     Logger.Debug("Saving new " + img.ImagePath + " to Context");
                     _contextObs.Add(img);
                     Logger.Debug(".. Saved to Context");
                     imageImportCounter++;
-                } else
+                }
+                else
                 {
                     Image exImg = _getExistingImage(img);
-                    if(exImg != null)
+                    if (exImg != null)
                     {
                         _updateImageProperties(img, ref exImg);
                         _contextObs.Update(exImg);
@@ -245,7 +247,7 @@ namespace Kbs.IdoWeb.Import.Models
             exImg.CopyrightText = img.CopyrightText;
             exImg.Description = img.Description;
             exImg.ImagePriority = img.ImagePriority;
-            if(exImg.TaxonName == null)
+            if (exImg.TaxonName == null)
             {
                 exImg.TaxonName = img.TaxonName;
             }
@@ -262,7 +264,7 @@ namespace Kbs.IdoWeb.Import.Models
             return null;
         }
 
-        public int? _saveImageLicense (ImageLicense imgLic)
+        public int _saveImageLicense(ImageLicense imgLic)
         {
             try
             {
@@ -276,15 +278,15 @@ namespace Kbs.IdoWeb.Import.Models
             catch (Exception e)
             {
                 Logger.Error(e.InnerException, "Error Adding ImageLicense to Context");
-                return null;
+                return 0;
             }
         }
 
 
-        private bool _imageAlreadyExists (Image img)
+        private bool _imageAlreadyExists(Image img)
         {
             var result = _contextObs.Image.FirstOrDefault(image => image.ImagePath == img.ImagePath);
-            if(result != null)
+            if (result != null)
             {
                 return true;
             }

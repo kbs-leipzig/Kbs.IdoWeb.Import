@@ -1,8 +1,7 @@
 {
   "profiles": {
     "Kbs.IdoWeb.Import": {
-      "commandName": "Project",
-      "commandLineArgs": "update-app-only"
+      "commandName": "Project"
     }
   }
 }

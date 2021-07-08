@@ -301,6 +301,7 @@ namespace Kbs.IdoWeb.Import.Models
         {
             //{"TaxonId":440867,"ImageId":4,"Index":3,"Title":"Anthocharis cardamines","Copyright":"Matthias Hartung","Description":"Weibchen des Aurorafalters im Mai 2008 bei Wei&szlig;ensand","Male":false,"Female":true,"Downside":false,"SecondForm":false },
             //Add sliderImages to TaxonImage.json
+            /**
             List<TaxonImage> sliderInfo_temp = _infContext.Taxon
                 .Where(t => t.SliderImages != null && t.TaxonId != null && t.TaxonName != null)
                 .Select(t => new TaxonImage
@@ -317,7 +318,7 @@ namespace Kbs.IdoWeb.Import.Models
                 }).AsNoTracking().ToList();
 
             List<TaxonImage> sliderImgs = new List<TaxonImage>();
-
+            
             foreach (var sliderArray in sliderInfo_temp)
             {
                 if (sliderArray.SliderImgArray != null)
@@ -351,9 +352,9 @@ namespace Kbs.IdoWeb.Import.Models
                     }
                 }
             }
-
+            **/
             List<TaxonImage> taxInfo = _obsContext.Image
-                .Where(td => td.TaxonId != null && td.LicenseId != null && td.IsApproved)
+                .Where(td => td.TaxonId != null && td.LicenseId != null && td.IsApproved && td.ImagePriority != null)
                 .Include(td => td.License)
                 .Select(td => new TaxonImage
                 {
@@ -368,14 +369,17 @@ namespace Kbs.IdoWeb.Import.Models
                     SecondForm = false
                 }).OrderBy(i => i.TaxonId).ThenBy(i => i.Index).AsNoTracking().ToList();
 
-            taxInfo.AddRange(sliderImgs);
-            var test = taxInfo.GroupBy(t => t.TaxonId).ToList();
+            //taxInfo.AddRange(sliderImgs);
+            
+            var taxInfoGrouped = taxInfo.GroupBy(t => t.TaxonId).ToList();
+            
             List<TaxonImage> result = new List<TaxonImage>();
-            foreach (var item in test)
+            foreach (var item in taxInfoGrouped)
             {
-                result.AddRange(item.Take(3));
+                result.AddRange(item.OrderBy(i => i.Index).ToList().Take(3));
             }
-            result.OrderBy(i => i.ImageId);
+            
+            //result.OrderBy(i => i.TaxonId).ThenBy(i => i.Index).ToList();
 
             Dictionary<string, string> imgListById = _obsContext.Image.Where(i => i.Description != null && i.LicenseId != null).Include(i => i.License).Select(i => new { ImageId = i.ImageId.ToString(), DescriptionStr = $"{i.Description}<br/>{i.Author}<br/>{i.CopyrightText}<br/><a href='{i.License.LicenseLink}' target='_blank'>{i.License.LicenseName}</a>" }).ToDictionary(x => x.ImageId, x => x.DescriptionStr);
             Dictionary<string, string> imgListByTitle = _obsContext.Image.Where(i => i.Description != null && i.LicenseId != null).Include(i => i.License).Select(i => new { ImagePath = i.ImagePath, DescriptionStr = $"{i.Description}<br/>{i.Author}<br/>{i.CopyrightText}<br/><a href='{i.License.LicenseLink}' target='_blank'>{i.License.LicenseName}</a>" }).ToDictionary(x => x.ImagePath, x => x.DescriptionStr);
@@ -394,7 +398,7 @@ namespace Kbs.IdoWeb.Import.Models
                     rItem.Description = "Beschreibung folgt";
                 }
             }
-            _writeFile(result.OrderBy(i => i.Index), "TaxonImages.json");
+            _writeFile(result.OrderBy(i => i.TaxonId).ThenBy(i => i.Index).ToList(), "TaxonImages.json");
         }
 
         private List<string> ConvertSynonymsToList(string synJson)
@@ -472,6 +476,7 @@ namespace Kbs.IdoWeb.Import.Models
             taxInfo.Add($"TaxonProtectionClasses.json", $"{versionDate}");
             //taxInfo.Add($"TaxonDesc.json", $"{versionDate}");
             taxInfo.Add($"TaxonSynonyms.json", $"{versionDate}");
+            taxInfo.Add($"TaxonTagFilterFilterGroups.json", $"{versionDate}");
             taxInfo.Add($"Versions.json", $"{versionDate}");
             _writeFile(taxInfo, "Versions.json");
         }
