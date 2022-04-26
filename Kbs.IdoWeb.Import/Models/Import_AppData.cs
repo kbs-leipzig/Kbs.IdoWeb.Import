@@ -82,6 +82,13 @@ namespace Kbs.IdoWeb.Import.Models
             */
             /**Get Species,Orders,Classes,Families
             **/
+
+            var dbg1 = _infContext.Taxon.Where(i => i.I18nNames != null && i.I18nNames != "null");
+            var dbg2 = dbg1.Select(t => new
+            {
+                I18nNames = t.I18nNames != null ? "<h4>Trivialnamen</h4><p><em>" + String.Join("</em></p><p><em>", JsonConvert.DeserializeObject<List<string>>(t.I18nNames)) + "</em></p>" : "",
+            }).AsNoTracking().ToList();
+
             var taxInfo = _infContext.Taxon
                 .Include(tax => tax.Family).AsNoTracking()
                 .Include(tax => tax.Order).AsNoTracking()
@@ -92,6 +99,7 @@ namespace Kbs.IdoWeb.Import.Models
                 {
                     //TaxonDistribution -> Lebensräume; Biotope --> Verbreitung & Häufigkeit; beschreibung -> AdditionalInfo
                     TaxonId = tax.TaxonId,
+                    I18nNames = tax.I18nNames != null && tax.I18nNames != "null" ? "<h4>Trivialnamen</h4><p><em>" + String.Join("</em></p><p><em>", JsonConvert.DeserializeObject<List<string>>(tax.I18nNames)) + "</em></p>" : "",
                     Synonyms = tax.Synonyms != null ? "<h4>Synonyme</h4><p><em>" + String.Join("</em></p><p><em>", ConvertSynonymsToList(tax.Synonyms)) + "</em></p>" : "",
                     DisplayLength = tax.DisplayLength != null ? "<p><b>L&auml;nge:</b><br/>" + tax.DisplayLength + "</p>" : "",
                     TaxonBiotopeAndLifestyle = tax.TaxonBiotopeAndLifestyle != null ? "<p><b>Verbreitung &amp; H&auml;ufigkeit:</b><br/>" + tax.TaxonBiotopeAndLifestyle + "</p>" : "",
@@ -107,6 +115,7 @@ namespace Kbs.IdoWeb.Import.Models
                     OrderName = tax.Order.TaxonName,
                     OrderId = tax.OrderId,
                     TaxonAuthor = tax.TaxonDescription,
+                    Identifier = tax.Identifier
                 }).AsNoTracking().ToList();
 
             List<TaxonInfo> result = new List<TaxonInfo>();
@@ -117,7 +126,8 @@ namespace Kbs.IdoWeb.Import.Models
                 string content = "";
                 content += "<h4>Allgemeines</h4>";
                 content += tInfo.DisplayLength + tInfo.TaxonBiotopeAndLifestyle + tInfo.TaxonDistribution + tInfo.AdditionalInfo + tInfo.Lit + tInfo.RedListTypeId + tInfo.RedListSource;
-                content += tInfo.Synonyms;
+                content += tInfo.I18nNames;
+                content += tInfo.Synonyms;                
                 newTaxonInfo.Diagnosis = content;
                 newTaxonInfo.TaxonId = tInfo.TaxonId;
                 newTaxonInfo.TaxonName = tInfo.TaxonName;
@@ -130,6 +140,7 @@ namespace Kbs.IdoWeb.Import.Models
                 newTaxonInfo.OrderId = tInfo.OrderId != null ? tInfo.OrderId : 0;
                 newTaxonInfo.TaxonAuthor = tInfo.TaxonAuthor != null ? tInfo.TaxonAuthor : "";
                 newTaxonInfo.SliderImages = tInfo.SliderImages != null ? JsonConvert.DeserializeObject(tInfo.SliderImages) : "";
+                newTaxonInfo.Identifier = tInfo.Identifier;
                 result.Add(newTaxonInfo);
             }
 
@@ -288,7 +299,7 @@ namespace Kbs.IdoWeb.Import.Models
                 result.Add(uten);
                 if (uten.ListSourceJson != null)
                 {
-                    uten.ListSourceJson = uten.ListSourceJson.Take(3).ToList();
+                    uten.ListSourceJson = uten.ListSourceJson.ToList();
                 }
                 result.Add(uten);
             }
@@ -376,13 +387,13 @@ namespace Kbs.IdoWeb.Import.Models
             List<TaxonImage> result = new List<TaxonImage>();
             foreach (var item in taxInfoGrouped)
             {
-                result.AddRange(item.OrderBy(i => i.Index).ToList().Take(3));
+                result.AddRange(item.OrderBy(i => i.Index).ToList());
             }
             
             //result.OrderBy(i => i.TaxonId).ThenBy(i => i.Index).ToList();
 
-            Dictionary<string, string> imgListById = _obsContext.Image.Where(i => i.Description != null && i.LicenseId != null).Include(i => i.License).Select(i => new { ImageId = i.ImageId.ToString(), DescriptionStr = $"{i.Description}<br/>{i.Author}<br/>{i.CopyrightText}<br/><a href='{i.License.LicenseLink}' target='_blank'>{i.License.LicenseName}</a>" }).ToDictionary(x => x.ImageId, x => x.DescriptionStr);
-            Dictionary<string, string> imgListByTitle = _obsContext.Image.Where(i => i.Description != null && i.LicenseId != null).Include(i => i.License).Select(i => new { ImagePath = i.ImagePath, DescriptionStr = $"{i.Description}<br/>{i.Author}<br/>{i.CopyrightText}<br/><a href='{i.License.LicenseLink}' target='_blank'>{i.License.LicenseName}</a>" }).ToDictionary(x => x.ImagePath, x => x.DescriptionStr);
+            Dictionary<string, string> imgListById = _obsContext.Image.Where(i => i.Description != null && i.LicenseId != null).Include(i => i.License).Select(i => new { ImageId = i.ImageId.ToString(), DescriptionStr = $"{i.TaxonName}<br/>{i.Description}<br/>{i.Author}<br/>{i.CopyrightText}<br/><a href='{i.License.LicenseLink}' target='_blank'>{i.License.LicenseName}</a>" }).ToDictionary(x => x.ImageId, x => x.DescriptionStr);
+            Dictionary<string, string> imgListByTitle = _obsContext.Image.Where(i => i.Description != null && i.LicenseId != null).Include(i => i.License).Select(i => new { ImagePath = i.ImagePath, DescriptionStr = $"{i.TaxonName}<br/>{i.Description}<br/>{i.Author}<br/>{i.CopyrightText}<br/><a href='{i.License.LicenseLink}' target='_blank'>{i.License.LicenseName}</a>" }).ToDictionary(x => x.ImagePath, x => x.DescriptionStr);
             foreach (TaxonImage rItem in result)
             {
                 if (rItem.Description == null)
@@ -404,6 +415,18 @@ namespace Kbs.IdoWeb.Import.Models
         private List<string> ConvertSynonymsToList(string synJson)
         {
             var step1 = JArray.FromObject(JsonConvert.DeserializeObject(synJson));
+            var step2 = step1.ToObject<List<string>>();
+            List<string> step3 = new List<string>();
+            foreach (string s in step2)
+            {
+                step3.Add(s.Trim());
+            }
+            return step3;
+        }
+
+        private List<string> Converti18nNamesToList(string i18nJson)
+        {
+            var step1 = JArray.FromObject(JsonConvert.DeserializeObject(i18nJson));
             var step2 = step1.ToObject<List<string>>();
             List<string> step3 = new List<string>();
             foreach (string s in step2)
@@ -562,6 +585,7 @@ namespace Kbs.IdoWeb.Import.Models
         public int IdentificationLevelFemale = 1;
         public int IdentificationLevelMale = 1;
         public object SliderImages { get; internal set; }
+        public Guid? Identifier { get; internal set; }
     }
 
     internal class TaxonImage

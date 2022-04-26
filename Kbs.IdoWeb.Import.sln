@@ -29,15 +29,18 @@ Global
 		SolutionGuid = {272186A7-9D15-4CA2-ABE0-935BE0094EA4}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 3
+		SccNumberOfProjects = 2
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://tfs2013:8080/tfs/naturkundeprojekte
-		SccLocalPath0 = .
+		SccTeamFoundationServer = https://tfs2013.kbs-leipzig.de/naturkundeprojekte
+		SccProjectUniqueName0 = Kbs.IdoWeb.Import\\Kbs.IdoWeb.Import.csproj
+		SccProjectName0 = Kbs.IdoWeb.Import
+		SccAuxPath0 = https://tfs2013.kbs-leipzig.de/naturkundeprojekte
+		SccLocalPath0 = Kbs.IdoWeb.Import
+		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccProjectUniqueName1 = ..\\Kbs.IdoWeb.Api\\Kbs.IdoWeb.Data\\Kbs.IdoWeb.Data.csproj
 		SccProjectName1 = ../Kbs.IdoWeb.Api/Kbs.IdoWeb.Data
+		SccAuxPath1 = https://tfs2013.kbs-leipzig.de/naturkundeprojekte
 		SccLocalPath1 = ..\\Kbs.IdoWeb.Api\\Kbs.IdoWeb.Data
-		SccProjectUniqueName2 = Kbs.IdoWeb.Import\\Kbs.IdoWeb.Import.csproj
-		SccProjectName2 = Kbs.IdoWeb.Import
-		SccLocalPath2 = Kbs.IdoWeb.Import
+		SccProvider1 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 	EndGlobalSection
 EndGlobal

@@ -30,6 +30,7 @@ namespace Kbs.IdoWeb.Import.Models
 
         private int _ampelColIndexExcel = 0;
         private int _orderPrioColIndexExcel = 0;
+        private int _keyDesciptionColIndexExcel = 0;
         private int _abbColIndexExcel;
         public int descKeyCounter = 0;
         public int descKeyGroupCounter = 0;
@@ -646,7 +647,12 @@ namespace Kbs.IdoWeb.Import.Models
                 {
                     if (IsNewDescKeyEntity(descKeyName, descKeyGroupId) && descKeyName.Count() > 0)
                     {
-                        DescriptionKey descKey = new DescriptionKey { KeyName = descKeyName, DescriptionKeyGroupId = descKeyGroupId.GetValueOrDefault(), ListSourceJson = abbString };
+                        string keyDescription = null;
+                        if(_keyDesciptionColIndexExcel != 0)
+                        {
+                            keyDescription = worksheetCharacteristics.Cells[rowIndex, _keyDesciptionColIndexExcel].Value != null? worksheetCharacteristics.Cells[rowIndex, _keyDesciptionColIndexExcel].Value.ToString():null;
+                        }
+                        DescriptionKey descKey = new DescriptionKey { KeyName = descKeyName, DescriptionKeyGroupId = descKeyGroupId.GetValueOrDefault(), ListSourceJson = abbString, KeyDescription = keyDescription };
                         _context.Add(descKey);
                         Logger.Debug("--- Saving descKeyName \'" + descKeyName + "\' descKeyGroup \'" + keyGroupName + "\' to Context ..");
                         SaveToContext();
@@ -798,6 +804,10 @@ namespace Kbs.IdoWeb.Import.Models
 
                 case "Priorität 1":
                     _orderPrioColIndexExcel = index;
+                    break;
+
+                case "Erklärung":
+                    _keyDesciptionColIndexExcel = index;
                     break;
 
                 default:

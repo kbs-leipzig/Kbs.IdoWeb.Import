@@ -68,6 +68,8 @@ namespace Kbs.IdoWeb.Import.Models
         private int addInfoCol = 0;
         private int dispLengthCol = 0;
         private int sliderImageCol = 0;
+        private int i18nNamesCol = 0;
+        private int guidCol = 0;
         Dictionary<string, int> _redListMap;
         private const string _taxonRegex = @"^(?:\S[^\(\)]*\s\S[^\(\)]*\s)((?:\(?)(\S*|\S*\s\S*|\S*|\S{2}\s\S{2}\s\S*|\S{2,4}\s\S|\S\s\S\s\S)(?:\,\s?\d{4}\)?))$";
         private const string _taxonBracketRegex = @"^(?:\S*\s\S*\s)(\()(.*?)(?:(?:\,?\s\d{4}?\)?)|(\,\s\))|(\)))$";
@@ -166,6 +168,12 @@ namespace Kbs.IdoWeb.Import.Models
                             break;
                         case "Slider":
                             sliderImageCol = i;
+                            break;
+                        case "Trivialname":
+                            i18nNamesCol = i;
+                            break;
+                        case "GUID":
+                            guidCol = i;
                             break;
                         default:
                             break;
@@ -950,12 +958,24 @@ namespace Kbs.IdoWeb.Import.Models
             string taxonDispLength = dispLengthCol>0 ? worksheetGeneral.Cells[i, dispLengthCol].Value?.ToString().Trim() : null;
             string taxonSliderImages = sliderImageCol >0 ? worksheetGeneral.Cells[i, sliderImageCol].Value?.ToString().Trim() : null;
             bool hasBracketDesc = Regex.IsMatch(taxonFullName, _taxonBracketRegex);
+            List<string> i18nNames = new List<string>();
+            Guid? taxonGuid = null;
+            if (i18nNamesCol > 0)
+            {
+                i18nNames = worksheetGeneral.Cells[i, i18nNamesCol].Value?.ToString().Trim().Split(',').ToList();
+            }
+            if (guidCol > 0)
+            {
+                if (worksheetGeneral.Cells[i, guidCol].Value != null) {
+                    taxonGuid = Guid.Parse(worksheetGeneral.Cells[i, guidCol].Value.ToString());
+                }
+            }
 
             if (!SpeciesExistsInContext(speciesName, genusId))
             {
                 try
                 {
-                    SaveSpeciesTaxonToContext(speciesName, genusId, taxonDescription, taxonDistribution, taxonBiotope, descriptionYear, descriptionBy, hasBracketDesc, taxonRedListSource, taxonRedListType, taxonAddInfo, taxonLitSource, taxonDistEurope, taxonDiagnosis, taxonDispLength, taxonSliderImages, i);
+                    SaveSpeciesTaxonToContext(speciesName, genusId, taxonDescription, taxonDistribution, taxonBiotope, descriptionYear, descriptionBy, hasBracketDesc, taxonRedListSource, taxonRedListType, taxonAddInfo, taxonLitSource, taxonDistEurope, taxonDiagnosis, taxonDispLength, taxonSliderImages, i, i18nNames, taxonGuid);
                 }
                 //save species with info in excel row - TODO: rewrite below
                 catch (Exception e)
@@ -976,7 +996,7 @@ namespace Kbs.IdoWeb.Import.Models
             return null;
         }
 
-        private void SaveSpeciesTaxonToContext(string speciesTaxonName, int genusId, string taxonDescription, string taxonBiotope, string taxonDistribution, int? descriptionYear, string descriptionBy, bool hasBracketDesc, string taxonRedListSource, string taxonRedListType, string taxonAddInfo, string taxonLitSource, string taxonDistEurope, string taxonDiagnosis, string taxonDispLength, string taxonSliderImages, int i)
+        private void SaveSpeciesTaxonToContext(string speciesTaxonName, int genusId, string taxonDescription, string taxonBiotope, string taxonDistribution, int? descriptionYear, string descriptionBy, bool hasBracketDesc, string taxonRedListSource, string taxonRedListType, string taxonAddInfo, string taxonLitSource, string taxonDistEurope, string taxonDiagnosis, string taxonDispLength, string taxonSliderImages, int i, List<string> i18nNames, Guid? taxonGuid)
         {
             //var genusId = _uniqueGenereaDict.ContainsKey(speciesItemExcel.Value) ? _uniqueGenereaDict[speciesItemExcel.Value] : (int?)null;
             var familyId = _infContext.Taxon.Where(t => t.TaxonId == genusId).FirstOrDefault().FamilyId;
@@ -1012,7 +1032,9 @@ namespace Kbs.IdoWeb.Import.Models
                 Group = _getGroupInfo(i),
                 EdaphobaseId = _getEdaphobaseIdFromExcel(i),
                 DisplayLength = taxonDispLength,
-                SliderImages = JsonConvert.SerializeObject(taxonSliderImages?.Split(';').ToList())
+                SliderImages = JsonConvert.SerializeObject(taxonSliderImages?.Split(';').ToList()),
+                I18nNames = JsonConvert.SerializeObject(i18nNames),
+                Identifier = taxonGuid
             };
             if (!_checkTaxonExists(newTaxon.TaxonName) && newTaxon.PhylumId != null && newTaxon.ClassId != null && newTaxon.OrderId != null && newTaxon.FamilyId != null && newTaxon.GenusId != null)
             {

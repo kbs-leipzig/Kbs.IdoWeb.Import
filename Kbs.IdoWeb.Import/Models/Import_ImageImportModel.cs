@@ -28,7 +28,7 @@ namespace Kbs.IdoWeb.Import.Models
         private int ccrLinkCol;
         public ExcelPackage excelPackage;
         private const string _taxonRegex = @"^(?:\S*\s\S*\s)(?:\(?)(\S*|\S*\s\S*|\S*|\S*\s\&\s\S*|\S{2}\s\S{2}\s\S*|\S{2}\s\S*)(?:(?:\,\s\d{4}?\)?)|(?:\,\s\)?))$";
-        private const string _ccrRegex = @"^(((CC(\s|\-))*?[A-Z]{2}((\-)|(\s)))(\d{1}.\d{1}|(([A-Z]{2})(\s|\-)(\d{1}.\d{1}))|([A-Z]{2})(\s|\-)(([A-Z]{2})|(\d{1}.\d{1}))\s(\d{1}.\d{1})?)|(CC0\s\d{1}.\d{1}))$";
+        private const string _ccrRegex = @"^(((CC(\s|\-))*?[A-Z]{2}((\-)|(\s)))(\d{1}.\d{1}|(([A-Z]{2})(\s|\-)(\d{1}.\d{1}))|([A-Z]{2})(\s|\-)(([A-Z]{2})|(\d{1}.\d{1}))\s(\d{1}.\d{1})?)(\s(FR)|\s(DE))?|(CC0\s\d{1}.\d{1}))$";
         private const string _ccUrlRegex = @"^(?:http(s)?:\/\/)?[creativecommons.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$";
 
 
@@ -175,6 +175,8 @@ namespace Kbs.IdoWeb.Import.Models
             return null;
         }
 
+
+        /*@TODO check lookup for new licences**/
         private int? _ccrLookup(string inString, int rowIdx)
         {
             int licenseId = 7;

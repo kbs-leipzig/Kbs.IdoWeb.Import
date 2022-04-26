@@ -19,18 +19,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="importFiles\**" />
-    <EmbeddedResource Remove="importFiles\**" />
-    <None Remove="importFiles\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="appsettings.json" />
-    <EmbeddedResource Remove="appsettings.json" />
-    <None Remove="appsettings.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="EPPlus" Version="4.5.3.2" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
@@ -61,31 +49,97 @@
     <None Update="importFiles\latest\01_Lithobiomorpha 2021-07-06.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="importFiles\latest\01_Lithobiomorpha 2021-08-20.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="importFiles\latest\01_Lithobiomorpha 2022-03-31.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="importFiles\latest\Bodentiere_2021-08-20.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="importFiles\latest\Bodentiere_2022-03-31.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="importFiles\latest\Chilopoda-Ordnungen 2021-07-06.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="importFiles\latest\Chilopoda-Ordnungen 2021-08-20.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="importFiles\latest\Chilopoda-Ordnungen 2022-03-31.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="importFiles\latest\Chordeumatida 2021-07-06.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="importFiles\latest\Chordeumatida 2021-08-20.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="importFiles\latest\Chordeumatida 2022-03-31.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="importFiles\latest\Diplopoda Ordnung 2021-07-06.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="importFiles\latest\Diplopoda Ordnung 2021-08-20.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="importFiles\latest\Diplopoda Ordnung 2022-03-31.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="importFiles\latest\Geophilomorpha 2021-07-06.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="importFiles\latest\Geophilomorpha 2021-08-20.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="importFiles\latest\Geophilomorpha 2022-03-31.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="importFiles\latest\Glomerida 2021-07-06.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="importFiles\latest\Glomerida 2021-08-20.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="importFiles\latest\Glomerida 2022-03-31.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="importFiles\latest\Isopoda_20210820.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="importFiles\latest\Isopoda_2022-03-31.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="importFiles\latest\Isopoda_Schlüssel_Phase_2_OpenOffice 2021-07-06.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="importFiles\latest\Julida 2021-03-31.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="importFiles\latest\Julida 2021-07-06.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="importFiles\latest\Julida 2021-08-20.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="importFiles\latest\Polydesmida 2021-07-06.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="importFiles\latest\Polydesmida 2021-08-20.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="importFiles\latest\Polydesmida 2022-03-31.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="importFiles\latest\Scolopendromorpha 2021-07-06.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="importFiles\latest\Scolopendromorpha 2021-08-20.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="importFiles\latest\Scolopendromorpha 2022-03-31.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="NLog.config">
