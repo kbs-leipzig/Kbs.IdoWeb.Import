@@ -121,7 +121,23 @@ namespace Kbs.IdoWeb.Import.Models
                             keyGroupDataType = GetDescKeyGroupDataType(i);
                         }
 
-                        DescriptionKeyGroup descriptionKeyGroup = new DescriptionKeyGroup { KeyGroupName = keyGroupName, DescriptionKeyGroupDataType = keyGroupDataType, VisibilityCategoryId = _MapAmpelType(i) };
+                        string keyGroupDescString = null;
+                        if(_keyDesciptionColIndexExcel > 0)
+                        {
+                            try
+                            {
+                                var keyGroupDesc = worksheetCharacteristics.Cells[i, _keyDesciptionColIndexExcel].Value;
+                                if (keyGroupDesc != null)
+                                {
+                                    keyGroupDescString = keyGroupDesc.ToString();
+                                }
+                            } catch (Exception ex)
+                            {
+                                Logger.Warn("Could not read KeyGroupDescription: " + ex);
+                            }
+                        }
+
+                        DescriptionKeyGroup descriptionKeyGroup = new DescriptionKeyGroup { KeyGroupName = keyGroupName, DescriptionKeyGroupDataType = keyGroupDataType, VisibilityCategoryId = _MapAmpelType(i), KeyGroupDescription = keyGroupDescString };
                         _context.Add(descriptionKeyGroup);
                         SaveToContext();
                         descKeyGroupCounter++;
@@ -343,7 +359,24 @@ namespace Kbs.IdoWeb.Import.Models
                         var supKeyGroupId = GetDescKeyGroupIdByName(supKeyGroupName);
                         if (!SupDescKeyGroupNameExists(keyGroupName, supKeyGroupId))
                         {
-                            DescriptionKeyGroup descriptionKeyGroup = new DescriptionKeyGroup { KeyGroupName = keyGroupName, ParentDescriptionKeyGroupId = supKeyGroupId, DescriptionKeyGroupDataType = keyGroupDataType, VisibilityCategoryId = _MapAmpelType(i), OrderPriority = _GetOrderPriority(i) };
+                            string keyGroupDescString = null;
+                            if (_keyDesciptionColIndexExcel > 0)
+                            {
+                                try
+                                {
+                                    var keyGroupDesc = worksheetCharacteristics.Cells[i, _keyDesciptionColIndexExcel].Value;
+                                    if (keyGroupDesc != null)
+                                    {
+                                        keyGroupDescString = keyGroupDesc.ToString();
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    Logger.Warn("Could not read KeyGroupDescription: " + ex);
+                                }
+                            }
+
+                            DescriptionKeyGroup descriptionKeyGroup = new DescriptionKeyGroup { KeyGroupName = keyGroupName, ParentDescriptionKeyGroupId = supKeyGroupId, DescriptionKeyGroupDataType = keyGroupDataType, VisibilityCategoryId = _MapAmpelType(i), OrderPriority = _GetOrderPriority(i), KeyGroupDescription = keyGroupDescString };
                             _context.Add(descriptionKeyGroup);
                             SaveToContext();
                             Logger.Debug("--- Added DescKeyGroup \'" + keyGroupName + "\' With ParentKeyGroup: \'" + supKeyGroupName);
@@ -367,7 +400,24 @@ namespace Kbs.IdoWeb.Import.Models
                     //merkmal as keygroup without Lage nor Region
                     else
                     {
-                        DescriptionKeyGroup descriptionKeyGroup = new DescriptionKeyGroup { KeyGroupName = keyGroupName, DescriptionKeyGroupDataType = keyGroupDataType, VisibilityCategoryId = _MapAmpelType(i), OrderPriority =  _GetOrderPriority(i)};
+                        string keyGroupDescString = null;
+                        if (_keyDesciptionColIndexExcel > 0)
+                        {
+                            try
+                            {
+                                var keyGroupDesc = worksheetCharacteristics.Cells[i, _keyDesciptionColIndexExcel].Value;
+                                if (keyGroupDesc != null)
+                                {
+                                    keyGroupDescString = keyGroupDesc.ToString();
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Logger.Warn("Could not read KeyGroupDescription: " + ex);
+                            }
+                        }
+
+                        DescriptionKeyGroup descriptionKeyGroup = new DescriptionKeyGroup { KeyGroupName = keyGroupName, DescriptionKeyGroupDataType = keyGroupDataType, VisibilityCategoryId = _MapAmpelType(i), OrderPriority =  _GetOrderPriority(i), KeyGroupDescription = keyGroupDescString};
                         _context.Add(descriptionKeyGroup);
                         SaveToContext();
                         Logger.Debug("--- Added DescKeyGroup \'" + keyGroupName + " with no ParentKeyGroup");
@@ -405,8 +455,26 @@ namespace Kbs.IdoWeb.Import.Models
             if (!SupDescKeyGroupNameExists(keyGroupName, supKeyGroupId, supSupKeyGroupId))
             {
                 DescriptionKeyGroup descriptionKeyGroup = null;
+
+                string keyGroupDescString = null;
+                if (_keyDesciptionColIndexExcel > 0)
+                {
+                    try
+                    {
+                        var keyGroupDesc = worksheetCharacteristics.Cells[i, _keyDesciptionColIndexExcel].Value;
+                        if (keyGroupDesc != null)
+                        {
+                            keyGroupDescString = keyGroupDesc.ToString();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Warn("Could not read KeyGroupDescription: " + ex);
+                    }
+                }
+
                 //eg "Oberseite;Unterseite"
-                descriptionKeyGroup = new DescriptionKeyGroup { KeyGroupName = keyGroupName, ParentDescriptionKeyGroupId = supKeyGroupId, DescriptionKeyGroupDataType = isMerkmaleRow ? keyGroupDataType : null, VisibilityCategoryId = _MapAmpelType(i), OrderPriority = _GetOrderPriority(i) };
+                descriptionKeyGroup = new DescriptionKeyGroup { KeyGroupName = keyGroupName, ParentDescriptionKeyGroupId = supKeyGroupId, DescriptionKeyGroupDataType = isMerkmaleRow ? keyGroupDataType : null, VisibilityCategoryId = _MapAmpelType(i), OrderPriority = _GetOrderPriority(i), KeyGroupDescription = keyGroupDescString };
                 _context.Add(descriptionKeyGroup);
                 Logger.Debug("--- Saving DescKeyGroup \'" + keyGroupName + "\' with ParentDescKeyGroup \'" + supKeyGroupName + "\' to Context ...");
                 SaveToContext();

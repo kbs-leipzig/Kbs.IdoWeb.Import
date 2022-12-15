@@ -357,6 +357,25 @@ namespace Kbs.IdoWeb.Import.Models
                         subphylumTaxon.PhylumId = _getPhylumIdFromExcel(i);
                         subphylumTaxon.KingdomId = _kingdomId;
                         subphylumTaxon.Group = _getGroupInfo(i);
+
+                        try
+                        {
+                            subphylumTaxon.TaxonDistribution = worksheetGeneral.Cells[i, distributionCol].Value?.ToString().Trim();
+                            subphylumTaxon.TaxonBiotopeAndLifestyle = worksheetGeneral.Cells[i, biotopeCol].Value?.ToString().Trim();
+                            subphylumTaxon.Diagnosis = diagnosisCol > 0 ? worksheetGeneral.Cells[i, diagnosisCol].Value?.ToString().Trim() : null;
+                            //subphylumTaxon.RedListType = redListTypeCol > 0 ? worksheetGeneral.Cells[i, redListTypeCol].Value?.ToString().Trim() : null;
+                            subphylumTaxon.RedListSource = redListSourceCol > 0 ? worksheetGeneral.Cells[i, redListSourceCol].Value?.ToString().Trim() : null;
+                            subphylumTaxon.DistributionEurope = distEuropeCol > 0 ? worksheetGeneral.Cells[i, distEuropeCol].Value?.ToString().Trim() : null;
+                            subphylumTaxon.AdditionalInfo = addInfoCol > 0 ? worksheetGeneral.Cells[i, addInfoCol].Value?.ToString().Trim() : null;
+                            subphylumTaxon.LiteratureSource = litSourceCol > 0 ? worksheetGeneral.Cells[i, litSourceCol].Value?.ToString().Trim() : null;
+                            subphylumTaxon.DisplayLength = dispLengthCol > 0 ? worksheetGeneral.Cells[i, dispLengthCol].Value?.ToString().Trim() : null;
+
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Error(ex);
+                        }
+
                         if (!_checkTaxonExists(subphylumTaxon.TaxonName))
                         {
                             _infContext.Taxon.Add(subphylumTaxon);
@@ -393,6 +412,26 @@ namespace Kbs.IdoWeb.Import.Models
                         newTaxon.PhylumId = _getPhylumIdFromExcel(i);
                         newTaxon.Group = _getGroupInfo(i);
                         newTaxon.KingdomId = _kingdomId;
+
+
+                        try
+                        {
+                            newTaxon.TaxonDistribution = worksheetGeneral.Cells[i, distributionCol].Value?.ToString().Trim();
+                            newTaxon.TaxonBiotopeAndLifestyle = worksheetGeneral.Cells[i, biotopeCol].Value?.ToString().Trim();
+                            newTaxon.Diagnosis = diagnosisCol > 0 ? worksheetGeneral.Cells[i, diagnosisCol].Value?.ToString().Trim() : null;
+                            //newTaxon.RedListType = redListTypeCol > 0 ? worksheetGeneral.Cells[i, redListTypeCol].Value?.ToString().Trim() : null;
+                            newTaxon.RedListSource = redListSourceCol > 0 ? worksheetGeneral.Cells[i, redListSourceCol].Value?.ToString().Trim() : null;
+                            newTaxon.DistributionEurope = distEuropeCol > 0 ? worksheetGeneral.Cells[i, distEuropeCol].Value?.ToString().Trim() : null;
+                            newTaxon.AdditionalInfo = addInfoCol > 0 ? worksheetGeneral.Cells[i, addInfoCol].Value?.ToString().Trim() : null;
+                            newTaxon.LiteratureSource = litSourceCol > 0 ? worksheetGeneral.Cells[i, litSourceCol].Value?.ToString().Trim() : null;
+                            newTaxon.DisplayLength = dispLengthCol > 0 ? worksheetGeneral.Cells[i, dispLengthCol].Value?.ToString().Trim() : null;
+
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Error(ex);
+                        }
+
                         if (!_checkTaxonExists(newTaxon.TaxonName))
                         {
                             _infContext.Taxon.Add(newTaxon);
@@ -429,6 +468,25 @@ namespace Kbs.IdoWeb.Import.Models
                         newTaxon.PhylumId = _getPhylumIdFromExcel(i);
                         newTaxon.Group = _getGroupInfo(i);
                         newTaxon.KingdomId = _kingdomId;
+
+                        try
+                        {
+                            newTaxon.TaxonDistribution = worksheetGeneral.Cells[i, distributionCol].Value?.ToString().Trim();
+                            newTaxon.TaxonBiotopeAndLifestyle = worksheetGeneral.Cells[i, biotopeCol].Value?.ToString().Trim();
+                            newTaxon.Diagnosis = diagnosisCol > 0 ? worksheetGeneral.Cells[i, diagnosisCol].Value?.ToString().Trim() : null;
+                            //newTaxon.RedListType = redListTypeCol > 0 ? worksheetGeneral.Cells[i, redListTypeCol].Value?.ToString().Trim() : null;
+                            newTaxon.RedListSource = redListSourceCol > 0 ? worksheetGeneral.Cells[i, redListSourceCol].Value?.ToString().Trim() : null;
+                            newTaxon.DistributionEurope = distEuropeCol > 0 ? worksheetGeneral.Cells[i, distEuropeCol].Value?.ToString().Trim() : null;
+                            newTaxon.AdditionalInfo = addInfoCol > 0 ? worksheetGeneral.Cells[i, addInfoCol].Value?.ToString().Trim() : null;
+                            newTaxon.LiteratureSource = litSourceCol > 0 ? worksheetGeneral.Cells[i, litSourceCol].Value?.ToString().Trim() : null;
+                            newTaxon.DisplayLength = dispLengthCol > 0 ? worksheetGeneral.Cells[i, dispLengthCol].Value?.ToString().Trim() : null;
+
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Error(ex);
+                        }
+
                         if (!_checkTaxonExists(newTaxon.TaxonName))
                         {
                             _infContext.Taxon.Add(newTaxon);
@@ -466,6 +524,25 @@ namespace Kbs.IdoWeb.Import.Models
                         newTaxon.PhylumId = _getPhylumIdFromExcel(i);
                         newTaxon.Group = _getGroupInfo(i);
                         newTaxon.KingdomId = _kingdomId;
+
+                        try
+                        {
+                            newTaxon.TaxonDistribution = worksheetGeneral.Cells[i, distributionCol].Value?.ToString().Trim();
+                            newTaxon.TaxonBiotopeAndLifestyle = worksheetGeneral.Cells[i, biotopeCol].Value?.ToString().Trim();
+                            newTaxon.Diagnosis = diagnosisCol > 0 ? worksheetGeneral.Cells[i, diagnosisCol].Value?.ToString().Trim() : null;
+                            //newTaxon.RedListType = redListTypeCol > 0 ? worksheetGeneral.Cells[i, redListTypeCol].Value?.ToString().Trim() : null;
+                            newTaxon.RedListSource = redListSourceCol > 0 ? worksheetGeneral.Cells[i, redListSourceCol].Value?.ToString().Trim() : null;
+                            newTaxon.DistributionEurope = distEuropeCol > 0 ? worksheetGeneral.Cells[i, distEuropeCol].Value?.ToString().Trim() : null;
+                            newTaxon.AdditionalInfo = addInfoCol > 0 ? worksheetGeneral.Cells[i, addInfoCol].Value?.ToString().Trim() : null;
+                            newTaxon.LiteratureSource = litSourceCol > 0 ? worksheetGeneral.Cells[i, litSourceCol].Value?.ToString().Trim() : null;
+                            newTaxon.DisplayLength = dispLengthCol > 0 ? worksheetGeneral.Cells[i, dispLengthCol].Value?.ToString().Trim() : null;
+
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Error(ex);
+                        }
+
                         if (!_checkTaxonExists(newTaxon.TaxonName))
                         {
                             _infContext.Taxon.Add(newTaxon);
@@ -545,6 +622,25 @@ namespace Kbs.IdoWeb.Import.Models
                                 PhylumId = _getPhylumIdFromExcel(i),
                                 Group = _getGroupInfo(i),
                             };
+
+                            try
+                            {
+                                newTaxon.TaxonDistribution = worksheetGeneral.Cells[i, distributionCol].Value?.ToString().Trim();
+                                newTaxon.TaxonBiotopeAndLifestyle = worksheetGeneral.Cells[i, biotopeCol].Value?.ToString().Trim();
+                                newTaxon.Diagnosis = diagnosisCol > 0 ? worksheetGeneral.Cells[i, diagnosisCol].Value?.ToString().Trim() : null;
+                                //newTaxon.RedListType = redListTypeCol > 0 ? worksheetGeneral.Cells[i, redListTypeCol].Value?.ToString().Trim() : null;
+                                newTaxon.RedListSource = redListSourceCol > 0 ? worksheetGeneral.Cells[i, redListSourceCol].Value?.ToString().Trim() : null;
+                                newTaxon.DistributionEurope = distEuropeCol > 0 ? worksheetGeneral.Cells[i, distEuropeCol].Value?.ToString().Trim() : null;
+                                newTaxon.AdditionalInfo = addInfoCol > 0 ? worksheetGeneral.Cells[i, addInfoCol].Value?.ToString().Trim() : null;
+                                newTaxon.LiteratureSource = litSourceCol > 0 ? worksheetGeneral.Cells[i, litSourceCol].Value?.ToString().Trim() : null;
+                                newTaxon.DisplayLength = dispLengthCol > 0 ? worksheetGeneral.Cells[i, dispLengthCol].Value?.ToString().Trim() : null;
+
+                            }
+                            catch (Exception ex)
+                            {
+                                Logger.Error(ex);
+                            }
+
                             if (!_checkTaxonExists(newTaxon.TaxonName))
                             {
                                 //hack because client cant keep his excels clean
@@ -742,6 +838,25 @@ namespace Kbs.IdoWeb.Import.Models
                             SubclassId = _getSubClassIdFromExcel(i),
                             Group = _getGroupInfo(i)
                         };
+
+                        try
+                        {
+                            newTaxon.TaxonDistribution = worksheetGeneral.Cells[i, distributionCol].Value?.ToString().Trim();
+                            newTaxon.TaxonBiotopeAndLifestyle = worksheetGeneral.Cells[i, biotopeCol].Value?.ToString().Trim();
+                            newTaxon.Diagnosis = diagnosisCol > 0 ? worksheetGeneral.Cells[i, diagnosisCol].Value?.ToString().Trim() : null;
+                            //newTaxon.RedListType = redListTypeCol > 0 ? worksheetGeneral.Cells[i, redListTypeCol].Value?.ToString().Trim() : null;
+                            newTaxon.RedListSource = redListSourceCol > 0 ? worksheetGeneral.Cells[i, redListSourceCol].Value?.ToString().Trim() : null;
+                            newTaxon.DistributionEurope = distEuropeCol > 0 ? worksheetGeneral.Cells[i, distEuropeCol].Value?.ToString().Trim() : null;
+                            newTaxon.AdditionalInfo = addInfoCol > 0 ? worksheetGeneral.Cells[i, addInfoCol].Value?.ToString().Trim() : null;
+                            newTaxon.LiteratureSource = litSourceCol > 0 ? worksheetGeneral.Cells[i, litSourceCol].Value?.ToString().Trim() : null;
+                            newTaxon.DisplayLength = dispLengthCol > 0 ? worksheetGeneral.Cells[i, dispLengthCol].Value?.ToString().Trim() : null;
+
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Error(ex);
+                        }
+
                         if (!_checkTaxonExists(newTaxon.TaxonName))
                         {
                             if (newTaxon.PhylumId != null && newTaxon.ClassId != null)
@@ -800,6 +915,25 @@ namespace Kbs.IdoWeb.Import.Models
                             SuborderId = _getSubOrderIdFromExcel(i),
                             Group = _getGroupInfo(i),
                         };
+
+                        try
+                        {
+                            newTaxon.TaxonDistribution = worksheetGeneral.Cells[i, distributionCol].Value?.ToString().Trim();
+                            newTaxon.TaxonBiotopeAndLifestyle = worksheetGeneral.Cells[i, biotopeCol].Value?.ToString().Trim();
+                            newTaxon.Diagnosis = diagnosisCol > 0 ? worksheetGeneral.Cells[i, diagnosisCol].Value?.ToString().Trim() : null;
+                            //newTaxon.RedListType = redListTypeCol > 0 ? worksheetGeneral.Cells[i, redListTypeCol].Value?.ToString().Trim() : null;
+                            newTaxon.RedListSource = redListSourceCol > 0 ? worksheetGeneral.Cells[i, redListSourceCol].Value?.ToString().Trim() : null;
+                            newTaxon.DistributionEurope = distEuropeCol > 0 ? worksheetGeneral.Cells[i, distEuropeCol].Value?.ToString().Trim() : null;
+                            newTaxon.AdditionalInfo = addInfoCol > 0 ? worksheetGeneral.Cells[i, addInfoCol].Value?.ToString().Trim() : null;
+                            newTaxon.LiteratureSource = litSourceCol > 0 ? worksheetGeneral.Cells[i, litSourceCol].Value?.ToString().Trim() : null;
+                            newTaxon.DisplayLength = dispLengthCol > 0 ? worksheetGeneral.Cells[i, dispLengthCol].Value?.ToString().Trim() : null;
+
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Error(ex);
+                        }
+
                         if (!_checkTaxonExists(newTaxon.TaxonName) && newTaxon.PhylumId != null && newTaxon.ClassId != null && newTaxon.OrderId != null)
                         {
                             _infContext.Taxon.Add(newTaxon);
@@ -857,6 +991,25 @@ namespace Kbs.IdoWeb.Import.Models
                             SubfamilyId = _getSubFamilyIdFromExcel(i),
                             Group = _getGroupInfo(i),
                         };
+
+                        try
+                        {
+                            newTaxon.TaxonDistribution = worksheetGeneral.Cells[i, distributionCol].Value?.ToString().Trim();
+                            newTaxon.TaxonBiotopeAndLifestyle = worksheetGeneral.Cells[i, biotopeCol].Value?.ToString().Trim();
+                            newTaxon.Diagnosis = diagnosisCol > 0 ? worksheetGeneral.Cells[i, diagnosisCol].Value?.ToString().Trim() : null;
+                            //newTaxon.RedListType = redListTypeCol > 0 ? worksheetGeneral.Cells[i, redListTypeCol].Value?.ToString().Trim() : null;
+                            newTaxon.RedListSource = redListSourceCol > 0 ? worksheetGeneral.Cells[i, redListSourceCol].Value?.ToString().Trim() : null;
+                            newTaxon.DistributionEurope = distEuropeCol > 0 ? worksheetGeneral.Cells[i, distEuropeCol].Value?.ToString().Trim() : null;
+                            newTaxon.AdditionalInfo = addInfoCol > 0 ? worksheetGeneral.Cells[i, addInfoCol].Value?.ToString().Trim() : null;
+                            newTaxon.LiteratureSource = litSourceCol > 0 ? worksheetGeneral.Cells[i, litSourceCol].Value?.ToString().Trim() : null;
+                            newTaxon.DisplayLength = dispLengthCol > 0 ? worksheetGeneral.Cells[i, dispLengthCol].Value?.ToString().Trim() : null;
+
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Error(ex);
+                        }
+
                         if (!_checkTaxonExists(newTaxon.TaxonName) && newTaxon.PhylumId != null && newTaxon.ClassId != null && newTaxon.OrderId != null && newTaxon.FamilyId != null)
                         {
                             _infContext.Taxon.Add(newTaxon);
